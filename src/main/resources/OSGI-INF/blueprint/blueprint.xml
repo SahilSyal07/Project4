@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+    xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 https://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd     http://camel.apache.org/schema/blueprint http://camel.apache.org/schema/blueprint/camel-blueprint.xsd">
+    <bean class="org.apache.camel.component.restlet.RestletComponent" id="restlet">
+        <property name="maxThreads" value="${MaxRestletThreadValue}"/>
+    </bean>
+    <!-- Property file from which all the variables will be read. -->
+    <cm:property-placeholder persistent-id="com.fusedemo"/>
+    <camelContext id="_Ctx_Project4" streamCache="true" xmlns="http://camel.apache.org/schema/blueprint">
+        <route id="_RT1_Project4" streamCache="true">
+            <from id="_from1" uri="restlet:http://{{esbHost}}:{{Project4Port}}/{{Project4URL}}?restletMethods=POST"/>
+            <log id="_log1" message="Request received from User_${body} at time_${date:now:yyyy-MM-dd'T'HH:mm:ss:SSS}"/>
+            <!-- Printing all the headers  -->
+            <log id="_log2" message="Headers :- ${in.headers}"/>
+            <setHeader headerName="mobileNumber">
+            <simple>${in.headers[mobileNumber]}</simple>
+            </setHeader>
+
+            <log id="_log3" message="Request Sent to Internal API at time_${date:now:yyyy-MM-dd'T'HH:mm:ss:SSS}"/>
+            <setHeader headerName="CamelHttpMethod" id="_setHeader2">
+                <simple>POST</simple>
+            </setHeader>
+            <!-- Using token as a variable sent to the Stub API  -->
+            <to id="_to1" uri="restlet:http://{{esbHost}}:{{StubProject5Port}}/{{StubProject5URL}}?restletMethod=POST"/>
+            <log id="_log5" message="Response Received from Internal API_${body} at time_${date:now:yyyy-MM-dd'T'HH:mm:ss:SSS} with Status Code_${header.CamelHttpResponseCode} "/>
+        </route>
+    </camelContext>
+</blueprint>

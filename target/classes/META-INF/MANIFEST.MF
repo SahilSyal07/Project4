@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1576221617665
+Build-Jdk: 1.8.0_232
+Built-By: sahil
+Bundle-Blueprint: OSGI-INF/blueprint/blueprint.xml
+Bundle-Description: ESB_Project4
+Bundle-License: https://www.apache.org/licenses/LICENSE-2.0.html
+Bundle-ManifestVersion: 2
+Bundle-Name: ESB_Project4
+Bundle-SymbolicName: ESB_Project4
+Bundle-Version: 1.0.0
+Created-By: Apache Maven Bundle Plugin
+Import-Package: org.apache.camel.component.restlet,org.osgi.service.blue
+ print;version="[1.0.0,2.0.0)"
+Tool: Bnd-3.2.0.201605172007
